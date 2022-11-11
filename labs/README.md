@@ -2,6 +2,10 @@
 
 ## 安装 & 环境
 
+> 开发环境：VScode + WSL2 + Opencv + VcXsrv
+
+安装Opencv
+
 ``` bash
 # Install minimal prerequisites (Ubuntu 18.04 as reference)
 sudo apt update && sudo apt install -y cmake g++ wget unzip
@@ -18,14 +22,33 @@ cmake --build .
 make install
 ```
 
+安装VcXsrv
+
+> VcXsrv是一个开源软件，它可以为wsl的程序提供GUI窗口。
+
++ [下载](https://sourceforge.net/projects/vcxsrv/)安装包
+
++ 配置WSL环境
+
+``` bash
+# Edit config for console
+vim ~/.bashrc or vim ~/.zshrc
+# Add following to the end of file
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+# Save and put the config into work
+source ~/.bashrc or source ~/.zshrc
+```
+
++ 启动VcXsrv: 在安装目录，双击xlaunch启动服务。
+
 ## 运行 & 检查
 
 ``` bash
 cd labs
 mkdir build | cd build
 cmake ../
-make lab1 | lab2 | lab3
-./lab1 | ./lab2 | lab3
+make lab1 or lab2 or lab3
+./lab1 or ./lab2 or ./lab3
 ```
 
 ## 要求 & 实现
