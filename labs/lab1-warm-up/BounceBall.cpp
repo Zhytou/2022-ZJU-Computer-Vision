@@ -24,15 +24,39 @@ void move(std::vector<BounceBall> &balls, const int& width, const int& height)
         }
 
         // check other balls
-        for (int j = i + 1; j < balls.size(); j++)
+        for (int j = 0; j < balls.size(); j++)
         {
+            if (i == j) {
+                continue;
+            }
+            
             if (balls[i].collapse(balls[j]) == true)
             {
-                balls[i].dx = -balls[i].dx;
-                balls[i].dy = -balls[i].dy;
+                // for rear-end collision, exchange speed        
+                // for head-on collision, change speed direction
+                if (balls[i].dx * balls[j].dx > 0)
+                {
+                    int tmp = balls[i].dx;
+                    balls[i].dx = balls[j].dx;
+                    balls[j].dx = tmp;
+                }
+                else 
+                {
+                    balls[i].dx = -balls[i].dx;
+                    balls[j].dx = -balls[j].dx;
+                }
 
-                balls[j].dx = -balls[j].dx;
-                balls[j].dy = -balls[j].dy;
+                if (balls[i].dy * balls[j].dy > 0)
+                {
+                    int tmp = balls[i].dy;
+                    balls[i].dy = balls[j].dy;
+                    balls[j].dy = tmp;
+                }
+                else 
+                {
+                    balls[j].dy = -balls[j].dy;
+                    balls[i].dy = -balls[i].dy;
+                }
             }
         }
 
@@ -41,9 +65,9 @@ void move(std::vector<BounceBall> &balls, const int& width, const int& height)
     }
 }
 
-void BounceBall::draw(cv::Mat &canvas) const
+void BounceBall::draw(cv::Mat &img) const
 {
-    cv::circle(canvas, cv::Point(x,y), radius, color, -1);
+    cv::circle(img, cv::Point(x,y), radius, color, -1);
 }
 
 bool BounceBall::collapse(const BounceBall &other)
