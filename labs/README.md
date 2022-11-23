@@ -41,7 +41,7 @@ source ~/.bashrc or source ~/.zshrc
 
 + 启动VcXsrv: 在安装目录，双击xlaunch启动服务。
 
-## 运行 & 检查
+## 编译 & 运行
 
 ``` bash
 cd labs
@@ -56,6 +56,16 @@ make lab1 or lab2 or lab3
 ### Lab1 Warm-up
 
 ![request](./lab1-warm-up/lab1.JPG)
+
+整个程序主要分成五部分，包括：加载姓名和学号信息图片、加载个人照片并先后转化称灰度图和黑白图、生成简单图案（线段、矩形和圆形）、生成彩色弹珠和加载结束图片。
+
+其中，每部分都是在一个 Mat 对象上操作，然后用一个 imshow 函数实现显示；接着，将该 Mat 对象导入一个 VideoWriter 对象实现视频存储；最后，通过 waitKey 函数实现了暂停功能。
+
+对于彩色图转灰度图，则是将（存储图像的）Mat 对象同一个位置的三个色彩通道变成同一值。而灰度图进一步转为黑白图，则是三个色彩通道二值化（保证最后只有 0 和 255 两种值）。
+
+除此之外，定义了一个 BounceBall 类记录弹珠位置、速度、大小和颜色信息，实现了 draw、collapse 和 move（友元函数）三个函数。
+
+### Lab2
 
 ## References
 

@@ -92,10 +92,10 @@ int main(int argc, char **argv)
                 int b = img.at<Vec3b>(rows,cols)[0];
                 int g = img.at<Vec3b>(rows,cols)[1];
                 int r = img.at<Vec3b>(rows,cols)[2];
-
-                img.at<Vec3b>(rows,cols)[0] = 0.30*r + 0.59*g +0.11*b;
-                img.at<Vec3b>(rows,cols)[1] = 0.30*r + 0.59*g +0.11*b;
-                img.at<Vec3b>(rows,cols)[2] = 0.30*r + 0.59*g +0.11*b;
+                
+                img.at<Vec3b>(rows,cols)[0] = 0.33 * (r + g + b);
+                img.at<Vec3b>(rows,cols)[1] = 0.33 * (r + g + b);
+                img.at<Vec3b>(rows,cols)[2] = 0.33 * (r + g + b);
             }
             rows += 1;
         }
