@@ -7,3 +7,7 @@ include_directories("/usr/local/include/opencv4")
 add_executable(lab1 ./lab1-warm-up/main.cpp ./lab1-warm-up/BounceBall.cpp)
 
 target_link_libraries(lab1 "/usr/local/lib/libopencv_core.so" "/usr/local/lib/libopencv_videoio.so" "/usr/local/lib/libopencv_imgcodecs.so" "/usr/local/lib/libopencv_highgui.so" "/usr/local/lib/libopencv_imgproc.so")
+
+add_executable(lab2 ./lab2-stiching/main.cpp)
+
+target_link_libraries(lab2 "/usr/local/lib/libopencv_core.so" "/usr/local/lib/libopencv_features2d.so" "/usr/local/lib/libopencv_imgcodecs.so" "/usr/local/lib/libopencv_highgui.so" )
