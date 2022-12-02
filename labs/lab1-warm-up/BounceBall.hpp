@@ -1,41 +1,46 @@
 #ifndef BOUNCEBALL
 #define BOUNCEBALL
-#include <iostream>
 #include <cmath>
+#include <iostream>
+
 #include "opencv4/opencv2/opencv.hpp"
 
-class BounceBall
-{
-private:
-    // position
-    int x, y;
-    // speed
-    int dx, dy;
-    // radius
-    int radius;
-    // color
-    cv::Scalar color;
+using namespace std;
+using namespace cv;
 
-    bool collapse(const BounceBall &);
-public:
-    BounceBall() = default;
+class BounceBall {
+ private:
+  // position
+  int x, y;
+  // speed
+  int dx, dy;
+  // radius
+  int radius;
+  // color
+  Scalar color;
 
-    BounceBall(int bx, int by, int dbx, int dby, int br, const cv::Scalar& bc) : x(bx), y(by), dx(dbx), dy(dby), radius(br), color(bc) {}
+  bool collapse(const BounceBall &);
 
-    BounceBall(const BounceBall& other) {
-        x = other.x;
-        y = other.y;
-        dx = other.dx;
-        dy = other.dy;
-        radius = other.radius;
-        color = other.color;
-    }
+ public:
+  BounceBall() = default;
 
-    ~BounceBall() {}
+  BounceBall(int bx, int by, int dbx, int dby, int br, const Scalar &bc)
+      : x(bx), y(by), dx(dbx), dy(dby), radius(br), color(bc) {}
 
-    friend void move(std::vector<BounceBall> &, const int&, const int&);
+  BounceBall(const BounceBall &other) {
+    x = other.x;
+    y = other.y;
+    dx = other.dx;
+    dy = other.dy;
+    radius = other.radius;
+    color = other.color;
+  }
 
-    void draw(cv::Mat &) const;
+  ~BounceBall() {}
+
+  friend void move(vector<BounceBall> &, const int &, const int &);
+
+  void draw(Mat &) const;
 };
 
 #endif
