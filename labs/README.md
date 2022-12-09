@@ -15,8 +15,8 @@
 安装Opencv
 
 ``` bash
-# Install minimal prerequisites (Ubuntu 18.04 as reference)
-sudo apt update && sudo apt install -y cmake g++ wget unzip
+# Install minimal prerequisites (Ubuntu 18.04 as reference) 
+sudo apt update && sudo apt install -y cmake g++ wget unzip libgtk2.0-dev pkg-config
 # Download and unpack sources
 wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
 unzip opencv.zip
@@ -42,7 +42,7 @@ make install
 # Edit config for console
 vim ~/.bashrc or vim ~/.zshrc
 # Add following to the end of file
-export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+export DISPLAY=:0
 # Save and put the config into work
 source ~/.bashrc or source ~/.zshrc
 ```
@@ -74,6 +74,16 @@ make lab1 or lab2 or lab3
 除此之外，定义了一个 BounceBall 类记录弹珠位置、速度、大小和颜色信息，实现了 draw、collapse 和 move（友元函数）三个函数。
 
 ### Lab2 Image Stiching
+
+整个程序分成四部分，包括：1、提取两张图片特征点并展示该结果；2、匹配两张图特征点并展示结果；3、计算变换矩阵，并利用矩阵转换得到新右图，最后展示直接拼接结果；4、加权计算拼接重叠部分，并最终实现融合拼接的效果。
+
+检测特征点部分主要用到了：1、SIFT类，用create函数构造了一个SIFT的特征点检测器，并用类内detect函数保存结果；2、drawKeyPoints函数根据上述得到的特征点数组画出特征点检测结果。
+
+特征点匹配部分主要用了：1、SiftDescriptorExtractor类，用create函数构造了一个SIFT的特征描述提取器，并用compute函数计算出描述符；2、BFMatcher类，调用类内函数match，根据上述特征描述符计算出匹配结果，最后用drawMatches画出匹配结果。
+
+直接拼接部分主要用了：1、findHomography函数，从之前得到的匹配特征点中选出10匹配效果好的，调用findHomography计算出映射矩阵；2、warpPerspective函数，根据映射矩阵，使用warpPerspective函数计算出新右图；3、copyTo函数，在新右图左边位置复制原左图，得到直接拼接结果。
+
+融合拼接部分主要用了：1、计算出重叠部分边界；2、重新计算重叠部分像素值。
 
 ## References
 

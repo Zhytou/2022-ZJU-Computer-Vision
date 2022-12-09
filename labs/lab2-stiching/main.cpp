@@ -86,17 +86,15 @@ int main() {
     // 进行图片变换
     Mat newImg1;
     warpPerspective(img1, newImg1, transformMat,
-                    Size(img1.cols + img2.cols, img1.rows));
+                    Size(img1.cols + img2.cols, max(img1.rows, img2.rows)));
     // 拼接后图像
     Mat stichImg(newImg1);
     img2.copyTo(stichImg(Rect(0, 0, img2.cols, img2.rows)));
     imshow(stichWindName, stichImg);
 
     // 图像融合
-    warpPerspective(img1, newImg1, transformMat,
-                    Size(img1.cols + img2.cols, img1.rows));
-    Mat blendImg(Size(img1.cols + img2.cols, img1.rows), CV_8UC3,
-                 Scalar(255, 255, 255));
+    Mat blendImg(Size(img1.cols + img2.cols, max(img1.rows, img2.rows)),
+                 CV_8UC3, Scalar(255, 255, 255));
 
     // 计算重叠部分上下边界
     vector<Point2f> sourceCornerPoints(4), targetCornerPoints(4);
@@ -113,20 +111,48 @@ int main() {
     cout << low << ' ' << high << endl;
     cout << blendImg.cols << ' ' << blendImg.rows << endl;
 
+    newImg1.copyTo(blendImg(Rect(0, 0, newImg1.cols, newImg1.rows)));
+    img2.copyTo(blendImg(Rect(0, 0, img2.cols, img2.rows)));
+
+    warpPerspective(img1, newImg1, transformMat,
+                    Size(img1.cols + img2.cols, max(img1.rows, img2.rows)));
+
     // 加权融合
+    for (int i = 0; i < blendImg.rows; i++) {
+      for (int j = low; j <= high; j++) {
+        if (newImg1.at<Vec3b>(i, j)[0] == 0 &&
+            newImg1.at<Vec3b>(i, j)[1] == 0 &&
+            newImg1.at<Vec3b>(i, j)[2] == 0) {
+          blendImg.at<Vec3b>(i, j) = img2.at<Vec3b>(i, j);
+        } else {
+          double fraction = 1.0 * (j - low) / overlapWidth;
+          blendImg.at<Vec3b>(i, j) = fraction * newImg1.at<Vec3b>(i, j) +
+                                     (1 - fraction) * img2.at<Vec3b>(i, j);
+        }
+      }
+    }
+    /*
     for (int i = 0; i < blendImg.rows; i++) {
       for (int j = 0; j < low; j++) {
         blendImg.at<Vec3b>(i, j) = img2.at<Vec3b>(i, j);
       }
-      for (int j = low; j <= high; j++) {
-        double fraction = 1.0 * (j - low) / overlapWidth;
-        blendImg.at<Vec3b>(i, j) = fraction * newImg1.at<Vec3b>(i, j) +
-                                   (1 - fraction) * img2.at<Vec3b>(i, j);
+      for (int j = low - 1; j <= high + 1; j++) {
+        if (newImg1.at<Vec3b>(i, j)[0] == 0 &&
+            newImg1.at<Vec3b>(i, j)[1] == 0 &&
+            newImg1.at<Vec3b>(i, j)[2] == 0) {
+          blendImg.at<Vec3b>(i, j) = img2.at<Vec3b>(i, j);
+        } else {
+          double fraction = 1.0 * (j - low) / overlapWidth;
+          blendImg.at<Vec3b>(i, j) = fraction * newImg1.at<Vec3b>(i, j) +
+                                     (1 - fraction) * img2.at<Vec3b>(i, j);
+        }
       }
       for (int j = high + 1; j < blendImg.cols; j++) {
         blendImg.at<Vec3b>(i, j) = newImg1.at<Vec3b>(i, j);
       }
     }
+    */
+
     imshow(blendWindName, blendImg);
     waitKey(0);
   }
