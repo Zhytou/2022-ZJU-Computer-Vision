@@ -1,8 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-
-#include "opencv4/opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 #define KEY_POINT_NUM 500
 #define GOOD_MATCH_POINT_NUM 10

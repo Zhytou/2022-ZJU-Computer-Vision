@@ -1,11 +1,11 @@
 #include <assert.h>
 #include <math.h>
 #include <stdlib.h>
-
 #include <iostream>
+#include <opencv2/opencv.hpp>
 
 #include "BounceBall.hpp"
-#include "opencv4/opencv2/opencv.hpp"
+
 
 #define FRAME_NUM 20
 #define DELAY 300
