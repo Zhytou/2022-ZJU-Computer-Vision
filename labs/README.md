@@ -6,11 +6,12 @@
   - [要求 \& 实现](#要求--实现)
     - [Lab1 Warm-up](#lab1-warm-up)
     - [Lab2 Image Stiching](#lab2-image-stiching)
+    - [Lab3 EigenX](#lab3-eigenx)
   - [References](#references)
 
 ## 安装 & 环境
 
-> 开发环境：VScode + WSL2 + Opencv + VcXsrv
+> 开发环境：VScode + WSL2 + Opencv + VcXsrv + Python
 
 安装Opencv
 
@@ -49,14 +50,45 @@ source ~/.bashrc or source ~/.zshrc
 
 - 启动VcXsrv: 在安装目录，双击xlaunch启动服务。
 
+安装Python
+
+- WSL自带python3
+
+``` bash
+python3 --version
+```
+
+- 安装opencv
+
+```bash
+pip install opencv-python
+```
+
+- pip安装需要的包
+
+```bash
+pip install numpy matplotlib scipy
+```
+
+- 安装matplot画图需要的包
+
+```bash
+sudo apt-get install python3-tk
+```
+
 ## 编译 & 运行
 
 ``` bash
+# lab1 和 lab2
 cd labs
-mkdir build | cd build
+mkdir ./build | cd ./build
 cmake ../
-make lab1 or lab2 or lab3
-./lab1 or ./lab2 or ./lab3
+make lab1 or lab2
+./lab1 or ./lab2
+
+# lab3
+cd labs/lab3-eigenx
+python3 main.py
 ```
 
 ## 要求 & 实现
@@ -84,6 +116,10 @@ make lab1 or lab2 or lab3
 直接拼接部分主要用了：1、findHomography函数，从之前得到的匹配特征点中选出10匹配效果好的，调用findHomography计算出映射矩阵；2、warpPerspective函数，根据映射矩阵，使用warpPerspective函数计算出新右图；3、copyTo函数，在新右图左边位置复制原左图，得到直接拼接结果。
 
 融合拼接部分主要用了：1、计算出重叠部分边界；2、重新计算重叠部分像素值。
+
+### Lab3 EigenX
+
+![request](./lab3-eigenx/lab3.PNG)
 
 ## References
 
