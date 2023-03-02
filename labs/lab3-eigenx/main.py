@@ -6,8 +6,8 @@ def main():
     modelname = './model/mymodel.npy'
     train(filename, modelname)
 
-    imgname = './test/test.jpg'
-    reconstruct(imgname, modelname, 10)
+    imginfo = './test/test.txt'
+    reconstruct(imginfo, modelname, 10)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.linalg
+from matplotlib import pyplot as plt
 
 
 def read(dataset: str):
@@ -31,7 +32,8 @@ def make_1d(points):
 def train(dataset: str, model: str):
     # 读取图片
     shapes = np.array(read(dataset))
-    print(shapes[0].shape)
+    # shapes = shapes.reshape(shapes.shape[1], shapes.shape[0]);
+    print(shapes.shape)
 
     # 求所有图片特征点平均值
     meanShapes = np.mean(shapes, axis=0)
@@ -43,4 +45,21 @@ def train(dataset: str, model: str):
         _, mtx, _ = scipy.spatial.procrustes(unmake_1d(meanShapes), unmake_1d(shapes[i]))
         normalizedShapes[i] = make_1d(mtx)
 
+    # 打印前10特征向量
+    cov = np.cov(normalizedShapes.T)
+    evals, evecs = np.linalg.eig(cov)
+
+    indices = np.argsort(evals)[::-1]
+    evecs = evecs[:, indices]
+    evals = evals[indices]
+    evecs = evecs[:, :10]
+    print(evecs)
+
+    # 作图
+    mean = np.mean(normalizedShapes, axis=0)
+    mean_coords = unmake_1d(mean)
+    plt.plot(mean_coords[0], mean_coords[1])
+    plt.show()
+
+    # 保存
     np.save(model, normalizedShapes)
